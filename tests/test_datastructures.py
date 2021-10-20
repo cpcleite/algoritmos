@@ -172,7 +172,7 @@ def test_LinkedList_clear():
     assert llist.tail is None
 
 
-def test_LinkedList_removeFisrt():
+def test_LinkedList_removeFirst():
 
     llist = LinkedList()
     llist.add(0)
