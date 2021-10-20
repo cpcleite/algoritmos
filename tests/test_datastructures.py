@@ -150,6 +150,65 @@ def test_LinkedList_addAt():
     assert llist.head.next.next.item == '+'
 
 
+def test_LinkedList__repr__():
+    # Prepare list
+    llist = LinkedList()
+    assert str(llist) == '[  ]'
+
+    llist.add(0)
+    assert str(llist) == '[ 0 ]'
+
+    llist.add(1)
+    assert str(llist) == '[ 0, 1 ]'
+
+    llist.add('+')
+    llist.add(2)
+    llist.add(3)
+    assert str(llist) == "[ 0, 1, '+', 2, 3 ]"
+
+
+def test_LinkedList_indexOf():
+    llist = LinkedList()
+    assert llist.indexOf(0) == -1
+    assert llist.indexOf(None) == -1
+
+    llist.add(0)
+    assert llist.indexOf(0) == 0
+    assert llist.indexOf(None) == -1
+
+    llist.add('+')
+    assert llist.indexOf('+') == 1
+    assert llist.indexOf(None) == -1
+
+    llist.add(None)
+    assert llist.indexOf(None) == 2
+
+
+def test_LinkedList_contains():
+    llist = LinkedList()
+    assert not llist.contains(0)
+    assert not llist.contains(None)
+    assert not llist.contains('+')
+
+    llist.add(0)
+    assert llist.contains(0)
+    assert not llist.contains(None)
+    assert not llist.contains('+')
+
+    llist.add(None)
+    assert llist.contains(0)
+    assert llist.contains(None)
+    assert not llist.contains('+')
+
+    llist.add('+')
+    assert llist.contains(0)
+    assert llist.contains(None)
+    assert llist.contains('+')
+
+    llist.add('')
+    assert llist.contains('')
+
+
 def test_LinkedList_clear():
     # Prepare list
     llist = LinkedList()
@@ -271,3 +330,77 @@ def test_LinkedList_removeLast():
     assert llist.isEmpty()
 
     assert llist.removeFirst() is None
+
+
+def test_LinkedList__remove__():
+    llist = LinkedList()
+
+    llist.add(0)
+    llist.add(None)
+    llist.add(1)
+    assert llist.__remove__(llist.head) == 0
+    assert llist.__remove__(llist.tail) == 1
+    assert llist.__remove__(llist.head) is None
+
+
+def test_LinkedList_removeAt():
+    llist = LinkedList()
+
+    # Remove from an empty LinkedList
+    err = False
+    try:
+        llist.removeAt(0)
+    except ValueError:
+        err = True
+
+    assert err
+
+    llist.add(0)
+    assert llist.removeAt(0) == 0
+    assert llist.size == 0
+    assert llist.head is None
+    assert llist.tail is None
+
+    llist.add(0)
+    llist.add(1)
+    llist.add(None)
+    llist.add(2)
+
+    assert llist.removeAt(2) is None
+    assert llist.size == 3
+    assert str(llist) == '[ 0, 1, 2 ]'
+
+    # Remove after end of list
+    err = False
+    try:
+        llist.removeAt(4)
+    except ValueError:
+        err = True
+
+    assert err
+    assert llist.size == 3
+    assert str(llist) == '[ 0, 1, 2 ]'
+
+
+def test_LinkedList_remove():
+    llist = LinkedList()
+
+    assert not llist.remove(0)
+    assert not llist.remove(None)
+
+    llist.add(0)
+    llist.add(1)
+    llist.add(None)
+    llist.add(2)
+
+    assert str(llist) == '[ 0, 1, None, 2 ]'
+    assert llist.remove(0)
+    assert str(llist) == '[ 1, None, 2 ]'
+    assert llist.remove(2)
+    assert str(llist) == '[ 1, None ]'
+    assert llist.remove(None)
+    assert str(llist) == '[ 1 ]'
+    assert not llist.remove(0)
+    assert str(llist) == '[ 1 ]'
+    assert llist.remove(1)
+    assert str(llist) == '[  ]'

@@ -19,6 +19,27 @@ class LinkedList():
         self.tail = None
         self.iter = None
 
+    def __repr__(self):
+        # Open bracket
+        aux = '[ '
+
+        trav = self.head
+        while trav is not None:
+            if type(trav.item) == str:
+                aux = aux + "'" + trav.item + "'"
+            else:
+                aux = aux + str(trav.item)
+
+            if trav.next is not None:
+                aux = aux + ', '
+
+            trav = trav.next
+
+        # Close bracket
+        aux = aux + ' ]'
+
+        return str(aux)
+
     def clear(self):
         """
         Clear the linked list.
@@ -47,6 +68,36 @@ class LinkedList():
         Tests if list is empty.
         """
         return self.size == 0
+
+    def indexOf(self, item):
+        """
+        Find the index of an item value
+        """
+        index = 0
+        trav = self.head
+
+        if item is None:
+            # search for null value
+            while trav is not None:
+                if trav.item is None:
+                    return index
+                trav = trav.next
+                index += 1
+
+        else:
+            # search for non null value
+            while trav is not None:
+                if trav.item == item:
+                    return index
+                trav = trav.next
+                index += 1
+
+        # Not found
+        return -1
+
+    def contains(self, item):
+        # Checks if the item value is in list
+        return self.indexOf(item) != -1
 
     def addLast(self, item):
         """
@@ -143,3 +194,66 @@ class LinkedList():
                 self.tail.next = None
 
             return item
+
+    def __remove__(self, node):
+        """
+        Assumes instance contains node.
+        """
+        # Head
+        if node.prev is None:
+            return self.removeFirst()
+
+        # Tail
+        if node.next is None:
+            return self.removeLast()
+
+        # Skip node
+        node.next.prev = node.prev
+        node.prev.next = node.next
+
+        self.size -= 1
+
+        # Save value
+        item = node.item
+
+        # Clean Memory
+        node.item = None
+        node.next = None
+        node.prev = None
+        node = None
+
+        # Return value
+        return item
+
+    def removeAt(self, index):
+        if index < 0 or index >= self.size:
+            raise ValueError('index is out of range')
+
+        aux = 0
+        trav = self.head
+        while aux != index:
+            aux += 1
+            trav = trav.next
+
+        return self.__remove__(trav)
+
+    def remove(self, item):
+        trav = self.head
+
+        if item is None:
+            while trav is not None:
+                if trav.item is None:
+                    self.__remove__(trav)
+                    return True
+
+                trav = trav.next
+
+        else:
+            while trav is not None:
+                if trav.item == item:
+                    self.__remove__(trav)
+                    return True
+
+                trav = trav.next
+
+        return False
