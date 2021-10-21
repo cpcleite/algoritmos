@@ -5,7 +5,7 @@ Created on Tue Oct 19 17:17
 
 @author: Celso Leite
 """
-from src.datastructures import LinkedList, Node
+from src.linkedList import LinkedList, Node
 
 
 def test_Node__init__():
@@ -404,3 +404,18 @@ def test_LinkedList_remove():
     assert str(llist) == '[ 1 ]'
     assert llist.remove(1)
     assert str(llist) == '[  ]'
+
+
+def test_LinkedList_iterator():
+    llist = LinkedList()
+
+    llist.add(0)
+    llist.add(1)
+    llist.add(2)
+    llist.add(None)
+
+    aux = []
+    for trav in llist:
+        aux.append(trav)
+
+    assert aux == [0, 1, 2, None]

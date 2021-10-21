@@ -7,6 +7,7 @@ class Node():
         self.prev = prev
         self.next = next
         self.item = item
+        self.travIter = None
 
     def __repr__(self):
         return str(self.item)
@@ -257,3 +258,23 @@ class LinkedList():
                 trav = trav.next
 
         return False
+
+    def __iter__(self):
+        """
+        Iterator initialization.
+        """
+        self.travIter = self.head
+        return self
+
+    def __next__(self):
+        """
+        Next iterator
+        """
+        # End of list
+        if self.travIter is None:
+            raise StopIteration
+
+        item = self.travIter.item
+        self.travIter = self.travIter.next
+
+        return item
