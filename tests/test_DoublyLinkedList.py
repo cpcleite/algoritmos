@@ -5,7 +5,7 @@ Created on Tue Oct 19 17:17
 
 @author: Celso Leite
 """
-from src.linkedList import LinkedList, Node
+from src.DoublyLinkedList import DLinkedList, Node
 
 
 def test_Node__init__():
@@ -26,16 +26,16 @@ def test_Node__init__():
     assert y.next == z
 
 
-def test_LinkedList__init__():
+def test_DLinkedList__init__():
     # Empty Linked List
-    llist = LinkedList()
+    llist = DLinkedList()
 
     assert llist.size == 0
     assert llist.isEmpty()
 
 
-def test_LinkedList_add():
-    llist = LinkedList()
+def test_DLinkedList_add():
+    llist = DLinkedList()
 
     # Tests item addition
     llist.add(0)
@@ -66,11 +66,11 @@ def test_LinkedList_add():
     assert llist.tail.prev.item == 1
 
 
-def test_LinkedList_addFirst():
+def test_DLinkedList_addFirst():
     """
     Tests addFirst LinkedList routine
     """
-    llist = LinkedList()
+    llist = DLinkedList()
 
     # Tests item addition
     llist.addFirst(0)
@@ -101,11 +101,11 @@ def test_LinkedList_addFirst():
     assert llist.tail.prev.item == 1
 
 
-def test_LinkedList_addLast():
+def test_DLinkedList_addLast():
     """
     Tests addLast LinkedList routine
     """
-    llist = LinkedList()
+    llist = DLinkedList()
 
     # Tests item addition
     llist.addLast(0)
@@ -136,8 +136,8 @@ def test_LinkedList_addLast():
     assert llist.tail.prev.item == 1
 
 
-def test_LinkedList_addAt():
-    llist = LinkedList()
+def test_DLinkedList_addAt():
+    llist = DLinkedList()
 
     llist.add(0)
     llist.add(1)
@@ -150,9 +150,9 @@ def test_LinkedList_addAt():
     assert llist.head.next.next.item == '+'
 
 
-def test_LinkedList__repr__():
+def test_DLinkedList__repr__():
     # Prepare list
-    llist = LinkedList()
+    llist = DLinkedList()
     assert str(llist) == '[  ]'
 
     llist.add(0)
@@ -167,8 +167,8 @@ def test_LinkedList__repr__():
     assert str(llist) == "[ 0, 1, '+', 2, 3 ]"
 
 
-def test_LinkedList_indexOf():
-    llist = LinkedList()
+def test_DLinkedList_indexOf():
+    llist = DLinkedList()
     assert llist.indexOf(0) == -1
     assert llist.indexOf(None) == -1
 
@@ -184,8 +184,8 @@ def test_LinkedList_indexOf():
     assert llist.indexOf(None) == 2
 
 
-def test_LinkedList_contains():
-    llist = LinkedList()
+def test_DLinkedList_contains():
+    llist = DLinkedList()
     assert not llist.contains(0)
     assert not llist.contains(None)
     assert not llist.contains('+')
@@ -209,9 +209,9 @@ def test_LinkedList_contains():
     assert llist.contains('')
 
 
-def test_LinkedList_clear():
+def test_DLinkedList_clear():
     # Prepare list
-    llist = LinkedList()
+    llist = DLinkedList()
     llist.add(0)
     llist.add(1)
     llist.add('+')
@@ -231,9 +231,9 @@ def test_LinkedList_clear():
     assert llist.tail is None
 
 
-def test_LinkedList_removeFirst():
+def test_DLinkedList_removeFirst():
 
-    llist = LinkedList()
+    llist = DLinkedList()
     llist.add(0)
     llist.add(1)
     llist.add('+')
@@ -279,9 +279,9 @@ def test_LinkedList_removeFirst():
     assert llist.removeFirst() is None
 
 
-def test_LinkedList_removeLast():
+def test_DLinkedList_removeLast():
 
-    llist = LinkedList()
+    llist = DLinkedList()
     llist.add(0)
     llist.add(1)
     llist.add('+')
@@ -332,8 +332,8 @@ def test_LinkedList_removeLast():
     assert llist.removeFirst() is None
 
 
-def test_LinkedList__remove__():
-    llist = LinkedList()
+def test_DLinkedList__remove__():
+    llist = DLinkedList()
 
     llist.add(0)
     llist.add(None)
@@ -343,8 +343,8 @@ def test_LinkedList__remove__():
     assert llist.__remove__(llist.head) is None
 
 
-def test_LinkedList_removeAt():
-    llist = LinkedList()
+def test_DLinkedList_removeAt():
+    llist = DLinkedList()
 
     # Remove from an empty LinkedList
     err = False
@@ -382,8 +382,8 @@ def test_LinkedList_removeAt():
     assert str(llist) == '[ 0, 1, 2 ]'
 
 
-def test_LinkedList_remove():
-    llist = LinkedList()
+def test_DLinkedList_remove():
+    llist = DLinkedList()
 
     assert not llist.remove(0)
     assert not llist.remove(None)
@@ -406,8 +406,8 @@ def test_LinkedList_remove():
     assert str(llist) == '[  ]'
 
 
-def test_LinkedList_iterator():
-    llist = LinkedList()
+def test_DLinkedList_iterator():
+    llist = DLinkedList()
 
     llist.add(0)
     llist.add(1)
@@ -419,3 +419,34 @@ def test_LinkedList_iterator():
         aux.append(trav)
 
     assert aux == [0, 1, 2, None]
+
+
+def test_DLinkedList__getitem__():
+    llist = DLinkedList()
+
+    llist.add('A')
+    llist.add('B')
+    llist.add('C')
+    llist.add('D')
+    llist.add('E')
+
+    assert llist[0].item == 'A'
+    assert llist[1].item == 'B'
+    assert llist[2].item == 'C'
+    assert llist[3].item == 'D'
+    assert llist[4].item == 'E'
+
+    try:
+        llist[5]
+    except IndexError:
+        pass
+
+    llist.add('F')
+    assert llist[2].item == 'C'
+    assert llist[3].item == 'D'
+    assert llist[5].item == 'F'
+
+    try:
+        llist[6]
+    except IndexError:
+        pass

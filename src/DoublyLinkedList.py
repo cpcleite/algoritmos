@@ -13,7 +13,7 @@ class Node():
         return str(self.item)
 
 
-class LinkedList():
+class DLinkedList():
     def __init__(self):
         self.size = 0
         self.head = None
@@ -40,6 +40,9 @@ class LinkedList():
         aux = aux + ' ]'
 
         return str(aux)
+
+    def __len__(self):
+        return self.size
 
     def clear(self):
         """
@@ -278,3 +281,18 @@ class LinkedList():
         self.travIter = self.travIter.next
 
         return item
+
+    def __getitem__(self, index):
+        if index < self.size:
+            if index < (self.size // 2):
+                node = self.head
+                for i in range(index):
+                    node = node.next
+                return node
+            else:
+                node = self.tail
+                for i in range(self.size - index - 1):
+                    node = node.prev
+                return node
+        else:
+            raise IndexError('Index greather than list size.')
